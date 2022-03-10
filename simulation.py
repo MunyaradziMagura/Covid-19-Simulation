@@ -45,17 +45,21 @@ def checkSick(victoms):
 
 
 def addSick(victoms, totalPopulation, sickNumber):
-    infectedPopulation = victoms
-    for sick in range(sickNumber):
-        # choose someone in the population
-        target = random.randrange(0, totalPopulation + 1)
-        # check if that person has already been infected
-        if infectedPopulation[target] == "healthy":
-            # infect said person if they are healthy
-            infectedPopulation[target] = "sick"
-        else:
-            sick - 1
 
+    infect = sickNumber
+    infectedPopulation = victoms
+    # check if any sick can be added
+    check = checkSick(infectedPopulation)
+    if check[0] < 1:
+        print("\nno sick can be added\n")
+        return infectedPopulation
+    else:
+        for victom in range(totalPopulation):
+            # check if that person has already been infected
+            if infectedPopulation[victom] == "healthy" and infect > 0:
+                # infect said person if they are healthy
+                infectedPopulation[victom] = "sick"
+                infect -= 1
     return infectedPopulation
 
 
@@ -79,9 +83,7 @@ def main():
     numSickPeople = sickNumber(populationSize)
     patients = addSick(people, populationSize, numSickPeople)
     print(patients)
-    newPatient = addSick(patients, populationSize, 2)
-    print(newPatient)
-    print("check sick: " + str(checkSick(newPatient)))
+    print("check sick: " + str(checkSick(patients)))
 
 
 main()
