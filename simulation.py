@@ -7,9 +7,13 @@ def getPopulation():
 
     return populationSize
 
+# takes in a dictionary and an int value
+
 
 def addSick(victoms, totalPopulation):
     return 1
+
+# takes in an int value
 
 
 def citizens(populationSize):
@@ -26,6 +30,7 @@ def main():
 
     populationSize = getPopulation()
     people = citizens(populationSize)
+    patients = addSick(people)
 
 
 main()
