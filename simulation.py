@@ -32,7 +32,7 @@ def sickNumber(populationSize):
 # return an array counting the victom stats
 
 
-def checkSick(victoms):
+def infectedCount(victoms):
     # healthy sick dead
     health = [0, 0, 0]
     for patient in victoms:
@@ -52,7 +52,7 @@ def addSick(victoms, totalPopulation, sickNumber):
     infect = sickNumber
     infectedPopulation = victoms
     # check if any sick can be added
-    check = checkSick(infectedPopulation)
+    check = infectedCount(infectedPopulation)
     if check[0] < 1:
         print("\nno sick can be added\n")
         return infectedPopulation
@@ -74,7 +74,7 @@ def citizens(populationSize):
     # create a population of people
     for people in range(populationSize):
         # set all people to healthy and the days they are sick is 0
-        citizens[people] = ["healthy", 0]
+        citizens[people] = ["healthy", 10]
 
     return citizens
 
@@ -90,6 +90,19 @@ def simulationDays():
     return int(days)
 
 
+def death():
+    diceOfDeath = random.randint(100)
+    return diceOfDeath
+
+
+def recovery(population):
+    recovered = population
+    for sick in population:
+        if recovered[sick][0] == "sick" and recovered[sick][1] >= 10 and:
+            recovered[sick] = ["healthy", 0]
+    return recovered
+
+
 def main():
     populationSize = getPopulation()
     days = simulationDays()
@@ -98,7 +111,9 @@ def main():
 
     patients = addSick(people, populationSize, numSickPeople)
     print(patients)
-    print("H/S/D |check sick: " + str(checkSick(patients)))
+    print("H/S/D |check sick: " + str(infectedCount(patients)))
+    recover = recovery(patients)
+    print(recover)
 
 
 main()
