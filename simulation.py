@@ -93,29 +93,55 @@ def death():
     return diceOfDeath
 
 
-def recovery(population):
-    recovered = population
+def infected(population):
+    infected = population
     for sick in population:
         grimReaper = death()
-        if grimReaper <= 20:
-            recovered[sick] = ["dead", 0]
-        elif recovered[sick][0] == "sick" and recovered[sick][1] >= 10 and grimReaper > 20:
-            recovered[sick] = ["healthy", 0]
+        if grimReaper <= 2:
+            infected[sick] = ["dead", 0]
+        elif infected[sick][0] == "sick" and infected[sick][1] >= 10 and grimReaper > 2:
+            infected[sick] = ["healthy", 0]
+        elif infected[sick][0] == "sick":
+            infected[sick][1] += 1
 
-    return recovered
+    return infected
+
+
+def peopleMeet(maxPopulation, currentPatient):
+    # how many people meet
+    encounters = random.randint(0, 21)
+    # keys of met people
+    meetNames = []
+    for i in range(0, encounters):
+        encounter = random.randint(0, maxPopulation)
+        if encounter not in meetNames and currentPatient != encounter:
+            encounter = random.randint(0, maxPopulation)
+            meetNames.append(encounter)
+        else:
+            encounter = random.randint(0, maxPopulation)
+            i -= 1
+    return meetNames
 
 
 def main():
+    # get population size
     populationSize = getPopulation()
+    # get days
     days = simulationDays()
+    # create citizens
     people = citizens(populationSize)
+    # add sick people
     numSickPeople = sickNumber(populationSize)
-
+    # add sick people
     patients = addSick(people, populationSize, numSickPeople)
     print(patients)
     print("H/S/D |check sick: " + str(infectedCount(patients)))
-    recover = recovery(patients)
-    print(recover)
+
+    # simulation days
+    for day in range(days):
+
+        for people in patients:
+            meet = peopleMeet(populationSize, people)
 
 
 main()
