@@ -1,3 +1,4 @@
+from hashlib import new
 import random
 # returns an int
 
@@ -25,21 +26,35 @@ def sickNumber(populationSize):
 
     return int(sick)
 
+# return an array counting the victom stats
+
+
+def checkSick(victoms):
+    # healthy sick dead
+    health = [0, 0, 0]
+    for patient in victoms:
+        if victoms[patient] == "healthy":
+            health[0] += 1
+        elif victoms[patient] == "sick":
+            health[1] += 1
+        else:
+            health[2] += 1
+
+    return health
 # takes in a dictionary, int and int and returns a dictionary
 
 
 def addSick(victoms, totalPopulation, sickNumber):
-    hit = []
     infectedPopulation = victoms
     for sick in range(sickNumber):
         # choose someone in the population
         target = random.randrange(0, totalPopulation + 1)
         # check if that person has already been infected
-        if target not in hit:
+        if infectedPopulation[target] == "healthy":
             # infect said person if they are healthy
             infectedPopulation[target] = "sick"
-            # add them to a list of infected people
-            hit.append(target)
+        else:
+            sick - 1
 
     return infectedPopulation
 
@@ -63,6 +78,10 @@ def main():
     people = citizens(populationSize)
     numSickPeople = sickNumber(populationSize)
     patients = addSick(people, populationSize, numSickPeople)
+    print(patients)
+    newPatient = addSick(patients, populationSize, 2)
+    print(newPatient)
+    print("check sick: " + str(checkSick(newPatient)))
 
 
 main()
