@@ -78,11 +78,24 @@ def citizens(populationSize):
 
     return citizens
 
+# how long the simulation will last
+
+
+def simulationDays():
+    days = input("enter number of days: ")
+    # ensure the population size is a number
+    while days.isnumeric() != True:
+        print("\nplease enter a valid size. only whole number integers \n")
+        days = input("enter number of days: ")
+    return int(days)
+
 
 def main():
     populationSize = getPopulation()
+    days = simulationDays()
     people = citizens(populationSize)
     numSickPeople = sickNumber(populationSize)
+
     patients = addSick(people, populationSize, numSickPeople)
     print(patients)
     print("H/S/D |check sick: " + str(checkSick(patients)))
