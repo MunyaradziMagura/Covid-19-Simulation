@@ -18,11 +18,9 @@ def getPopulation():
 def sickNumber(populationSize):
     sick = input("number of sick: ")
 
-    while sick.isnumeric() != True or int(sick) > populationSize or int(sick) > 20:
+    while sick.isnumeric() != True or int(sick) > populationSize:
         if int(sick) > populationSize:
             print("\nsick number is greater than population :(")
-        elif int(sick) > 20:
-            print("\nyou can only infect a maximum of 20 people")
         else:
             print("\nplease enter a whole number below: " + str(populationSize))
         sick = input("\nnumber of sick: ")
@@ -91,15 +89,19 @@ def simulationDays():
 
 
 def death():
-    diceOfDeath = random.randint(100)
+    diceOfDeath = random.randint(0, 100)
     return diceOfDeath
 
 
 def recovery(population):
     recovered = population
     for sick in population:
-        if recovered[sick][0] == "sick" and recovered[sick][1] >= 10 and:
+        grimReaper = death()
+        if grimReaper <= 20:
+            recovered[sick] = ["dead", 0]
+        elif recovered[sick][0] == "sick" and recovered[sick][1] >= 10 and grimReaper > 20:
             recovered[sick] = ["healthy", 0]
+
     return recovered
 
 
