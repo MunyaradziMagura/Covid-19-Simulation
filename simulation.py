@@ -1,3 +1,7 @@
+import random
+# returns an int
+
+
 def getPopulation():
     populationSize = input("enter a population size: ")
     # ensure the population size is a number
@@ -5,9 +9,9 @@ def getPopulation():
         print("\nplease enter a valid size. only whole number integers \n")
         populationSize = input("enter a population size: ")
 
-    return populationSize
+    return int(populationSize)
 
-# takes in a dictionary and an int value
+# takes in a dictionary and an int value then returns an int
 
 
 def sickNumber(populationSize):
@@ -18,13 +22,29 @@ def sickNumber(populationSize):
         else:
             print("\nplease enter a whole number below: " + str(populationSize))
         sick = input("\nnumber of sick: ")
-    return sick
+
+    return int(sick)
+
+# takes in a dictionary, int and int and returns a dictionary
 
 
 def addSick(victoms, totalPopulation, sickNumber):
-    return 1
+    hit = []
+    infectedPopulation = victoms
+    for sick in sickNumber:
+        # choose someone in the population
+        target = random.randrange(0, totalPopulation + 1)
+        # check if that person has already been infected
+        if target not in hit:
+            # infect said person if they are healthy
+            infectedPopulation[target] = "sick"
+            # add them to a list of infected people
+            hit.append(target)
 
-# takes in an int value
+    return infectedPopulation
+
+
+# takes in an int value then returns a dictionary
 
 
 def citizens(populationSize):
@@ -41,7 +61,8 @@ def main():
 
     populationSize = getPopulation()
     people = citizens(populationSize)
-    patients = addSick(people, populationSize, )
+    numSickPeople = sickNumber(populationSize)
+    patients = addSick(people, populationSize, numSickPeople)
 
 
 main()
