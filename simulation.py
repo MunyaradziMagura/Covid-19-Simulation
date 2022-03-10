@@ -10,7 +10,18 @@ def getPopulation():
 # takes in a dictionary and an int value
 
 
-def addSick(victoms, totalPopulation):
+def sickNumber(populationSize):
+    sick = input("number of sick: ")
+    while sick.isnumeric() != True or sick > populationSize:
+        if sick > populationSize:
+            print("\nsick number is greater than population :(")
+        else:
+            print("\nplease enter a whole number below: " + str(populationSize))
+        sick = input("\nnumber of sick: ")
+    return sick
+
+
+def addSick(victoms, totalPopulation, sickNumber):
     return 1
 
 # takes in an int value
@@ -30,7 +41,7 @@ def main():
 
     populationSize = getPopulation()
     people = citizens(populationSize)
-    patients = addSick(people)
+    patients = addSick(people, populationSize, )
 
 
 main()
