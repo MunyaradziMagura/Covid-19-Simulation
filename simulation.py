@@ -16,7 +16,7 @@ def getPopulation():
 
 def sickNumber(populationSize):
     sick = input("number of sick: ")
-    while sick.isnumeric() != True or sick > populationSize:
+    while sick.isnumeric() != True or int(sick) > populationSize:
         if sick > populationSize:
             print("\nsick number is greater than population :(")
         else:
@@ -31,7 +31,7 @@ def sickNumber(populationSize):
 def addSick(victoms, totalPopulation, sickNumber):
     hit = []
     infectedPopulation = victoms
-    for sick in sickNumber:
+    for sick in range(sickNumber):
         # choose someone in the population
         target = random.randrange(0, totalPopulation + 1)
         # check if that person has already been infected
@@ -50,7 +50,7 @@ def addSick(victoms, totalPopulation, sickNumber):
 def citizens(populationSize):
     citizens = {}
     # create a population of people
-    for people in len(populationSize):
+    for people in range(populationSize):
         # set all people to healthy
         citizens[people] = "healthy"
 
