@@ -17,9 +17,12 @@ def getPopulation():
 
 def sickNumber(populationSize):
     sick = input("number of sick: ")
-    while sick.isnumeric() != True or int(sick) > populationSize:
-        if sick > populationSize:
+
+    while sick.isnumeric() != True or int(sick) > populationSize or int(sick) > 20:
+        if int(sick) > populationSize:
             print("\nsick number is greater than population :(")
+        elif int(sick) > 20:
+            print("\nyou can only infect a maximum of 20 people")
         else:
             print("\nplease enter a whole number below: " + str(populationSize))
         sick = input("\nnumber of sick: ")
@@ -33,11 +36,11 @@ def checkSick(victoms):
     # healthy sick dead
     health = [0, 0, 0]
     for patient in victoms:
-        if victoms[patient] == "healthy":
+        if victoms[patient][0] == "healthy":
             health[0] += 1
-        elif victoms[patient] == "sick":
+        elif victoms[patient][0] == "sick":
             health[1] += 1
-        else:
+        elif victoms[patient][0] == "dead":
             health[2] += 1
 
     return health
@@ -56,9 +59,9 @@ def addSick(victoms, totalPopulation, sickNumber):
     else:
         for victom in range(totalPopulation):
             # check if that person has already been infected
-            if infectedPopulation[victom] == "healthy" and infect > 0:
+            if infectedPopulation[victom][0] == "healthy" and infect > 0:
                 # infect said person if they are healthy
-                infectedPopulation[victom] = "sick"
+                infectedPopulation[victom][0] = "sick"
                 infect -= 1
     return infectedPopulation
 
@@ -70,20 +73,19 @@ def citizens(populationSize):
     citizens = {}
     # create a population of people
     for people in range(populationSize):
-        # set all people to healthy
-        citizens[people] = "healthy"
+        # set all people to healthy and the days they are sick is 0
+        citizens[people] = ["healthy", 0]
 
     return citizens
 
 
 def main():
-
     populationSize = getPopulation()
     people = citizens(populationSize)
     numSickPeople = sickNumber(populationSize)
     patients = addSick(people, populationSize, numSickPeople)
     print(patients)
-    print("check sick: " + str(checkSick(patients)))
+    print("H/S/D |check sick: " + str(checkSick(patients)))
 
 
 main()
