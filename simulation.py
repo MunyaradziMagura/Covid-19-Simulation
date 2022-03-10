@@ -8,8 +8,24 @@ def getPopulation():
     return populationSize
 
 
+def addSick(victoms, totalPopulation):
+    return 1
+
+
+def citizens(populationSize):
+    citizens = {}
+    # create a population of people
+    for people in len(populationSize):
+        # set all people to healthy
+        citizens[people] = "healthy"
+
+    return citizens
+
+
 def main():
+
     populationSize = getPopulation()
+    people = citizens(populationSize)
 
 
 main()
