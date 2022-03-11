@@ -1,3 +1,7 @@
+# Munyaradzi Magura
+# cant track which pateint infected who
+# higher chance of people better than people getting sick
+# after a point no new infected are created
 from hashlib import new
 import random
 # returns an int
