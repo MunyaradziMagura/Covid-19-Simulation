@@ -72,7 +72,7 @@ def citizens(populationSize):
     # create a population of people
     for people in range(populationSize):
         # set all people to healthy and the days they are sick is 0
-        citizens[people] = ["healthy", 10]
+        citizens[people] = ["healthy", 0]
 
     return citizens
 
@@ -106,21 +106,41 @@ def infected(population):
 
     return infected
 
+# returns array
 
-def peopleMeet(maxPopulation, currentPatient):
+
+def peopleMet(maxPopulation, currentPatient):
+    # max number of possible infected
+    if maxPopulation > 20:
+        maxInfected = 20
+    else:
+        maxInfected = maxPopulation - 1
+
     # how many people meet
-    encounters = random.randint(0, 21)
+    encounters = random.randint(0, maxInfected)
     # keys of met people
     meetNames = []
     for i in range(0, encounters):
-        encounter = random.randint(0, maxPopulation)
+        encounter = random.randint(0, maxInfected)
         if encounter not in meetNames and currentPatient != encounter:
-            encounter = random.randint(0, maxPopulation)
-            meetNames.append(encounter)
+            # will this person get infected? 30% chance of infection
+            infectionChance = random.randint(0, 100)
+            if infectionChance < 30:
+                meetNames.append(encounter)
         else:
-            encounter = random.randint(0, maxPopulation)
+            encounter = random.randint(0, maxInfected)
             i -= 1
     return meetNames
+# returns new dictionay
+
+
+def newInfected(people, newInfected):
+    updated = people
+    for victom in newInfected:
+        if updated[victom] == "healthy":
+            updated[victom] = "sick"
+
+    return updated
 
 
 def main():
@@ -134,14 +154,28 @@ def main():
     numSickPeople = sickNumber(populationSize)
     # add sick people
     patients = addSick(people, populationSize, numSickPeople)
-    print(patients)
-    print("H/S/D |check sick: " + str(infectedCount(patients)))
+    print("Healthy/Sick/Dead | initial sick: " + str(infectedCount(patients)))
 
-    # simulation days
-    for day in range(days):
+    dailyInfected = []
+    # loop through days
+    for day in range(0, days):
+        # 1: check if a patient is going to die, 2) update their sick days, 3) update their health status i.e. from sick to healthy
+        patients = infected(patients)
+        for person in patients:
+            if patients[person][0] == "sick":
+                # who this patient has met and infected
+                dailyInfected += peopleMet(populationSize, person)
+                # remove duplicates
+                dailyInfected = list(dict.fromkeys(dailyInfected))
 
-        for people in patients:
-            meet = peopleMeet(populationSize, people)
+                # add new infected to patients
+
+        # add new infected to patients
+        patients = newInfected(patients, dailyInfected)
+
+        print("Healthy/Sick/Dead |check sick: " + str(infectedCount(patients)))
+        # clear daily infected
+        dailyInfected = []
 
 
 main()
