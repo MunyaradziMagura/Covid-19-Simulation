@@ -88,19 +88,21 @@ def simulationDays():
     return int(days)
 
 
-def death():
-    diceOfDeath = random.randint(0, 100)
-    return diceOfDeath
+def dice():
+    diceOfdice = random.randint(0, 100)
+    return diceOfdice / 100
 
 
 def infected(population):
     infected = population
     for sick in population:
-        grimReaper = death()
-        if grimReaper <= 2:
-            infected[sick] = ["dead", 0]
-        elif infected[sick][0] == "sick" and infected[sick][1] >= 10 and grimReaper > 2:
-            infected[sick] = ["healthy", 0]
+        if infected[sick][0] == "sick" and infected[sick][1] >= 10:
+            # check if person will die
+            if dice() < 0.02:
+                infected[sick] = ["dead", 0]
+            else:
+                infected[sick] = ["healthy", 0]
+
         elif infected[sick][0] == "sick":
             infected[sick][1] += 1
 
@@ -124,8 +126,7 @@ def peopleMet(maxPopulation, currentPatient):
         encounter = random.randint(0, maxInfected)
         if encounter not in meetNames and currentPatient != encounter:
             # will this person get infected? 30% chance of infection
-            infectionChance = random.randint(0, 100)
-            if infectionChance < 30:
+            if dice() < 0.3:
                 meetNames.append(encounter)
         else:
             encounter = random.randint(0, maxInfected)
@@ -173,7 +174,8 @@ def main():
         # add new infected to patients
         patients = newInfected(patients, dailyInfected)
 
-        print("Healthy/Sick/Dead |check sick: " + str(infectedCount(patients)))
+        print("Healthy/Sick/Dead |check sick: " +
+              str(infectedCount(patients)) + " DAY: " + str(day))
         # clear daily infected
         dailyInfected = []
 
